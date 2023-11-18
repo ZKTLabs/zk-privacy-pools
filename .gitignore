@@ -8,3 +8,4 @@ backlog
 *.error
 *.log
 venv
+.idea

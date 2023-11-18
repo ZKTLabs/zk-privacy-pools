@@ -4,6 +4,9 @@ TARGET=$1
 TAU=$2
 NUM_PUBLIC_INPUTS=$3
 
+mkdir -p ./circuits/out
+mkdir -p ./powers_of_tau
+
 if [ ! -f "./circuits/out/${TARGET}.r1cs" ] \
     || [ ! -f "./circuits/out/${TARGET}_js/${TARGET}.wasm" ] \
     || [ ! -f "./circuits/out/${TARGET}.sym" ]

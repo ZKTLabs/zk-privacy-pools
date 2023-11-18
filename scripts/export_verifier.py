@@ -2,6 +2,8 @@
 import sys
 
 def find_verifying_key(lines: list, end: int):
+    start = 0
+    stop = end
     for l, line in enumerate(lines):
         if 'function verifyingKey() internal' in line:
             start = l + 1
