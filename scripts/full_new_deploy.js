@@ -1,4 +1,5 @@
 require('dotenv').config();
+const hre = require("hardhat");
 const fs = require("fs");
 const { poseidonContract } = require("circomlibjs");
 const { ethers } = require("hardhat");
@@ -17,7 +18,7 @@ const { NOTE_WALLET_MNEMONIC } = process.env
 const NUM_INITIAL_DEPOSITS = 3
 
 async function main() {
-    const gasPrice = ethers.utils.parseUnits('0.01', 9)
+    // const gasPrice = ethers.utils.parseUnits('0.01', 9)
     const noteWallet = new NoteWalletV2(NOTE_WALLET_MNEMONIC, 0)
     const commitments = [];
     for (let i = 0; i < NUM_INITIAL_DEPOSITS; i++) {
@@ -40,7 +41,7 @@ async function main() {
       const abi = poseidonContract.generateABI(2);
       const bytecode = poseidonContract.createCode(2);
 
-      const poseidon = await deployBytes('Poseidon', abi, bytecode, true, { gasPrice })
+      const poseidon = await deployBytes('Poseidon', abi, bytecode, true, )
       poseidonContracts[chainId] = poseidon.address;
       fs.writeFileSync(
         "./poseidonContracts.json",
@@ -53,7 +54,6 @@ async function main() {
       "SubsetRegistry",
       [],
       true,
-      { gasPrice }
     );
 
     let pools = {}
@@ -63,7 +63,6 @@ async function main() {
         "PrivacyPool",
         [poseidonContracts[chainId], denomination],
         true,
-        { gasPrice }
       );
       pools[denomination] = pool.address
     }
@@ -76,7 +75,7 @@ async function main() {
       const pool = new ethers.Contract(poolAddress, PrivacyPoolAbi, signer)
       for (const commitment of commitments) {
         console.log(commitment)
-        await pool.deposit(commitment, { value: denomination, gasPrice })
+        await pool.deposit(commitment, { value: denomination, })
       }
     }
 
